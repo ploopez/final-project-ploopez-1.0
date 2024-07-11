@@ -1,0 +1,6 @@
+[nodos]
+nodo1 ansible_host=10.0.1.4  ansible_user=adminuser ansible_ssh_pass=A1b#c2
+
+
+[mayor:children]
+nodos

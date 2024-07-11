@@ -1,0 +1,25 @@
+name: 'Start AKS and create Secret of ACR'
+
+on:  workflow_dispatch
+
+jobs:
+  k8s:
+    name: 'K8s'
+    runs-on: ubuntu-latest
+    environment: production
+ 
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    
+    - uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Connection to cluster and secret create
+      run: |
+        az acr login --name ${{ vars.CONTAINER_REGISTRY_NAME }}
+        az aks get-credentials --resource-group ${{ vars.RESOURCE_GROUP_NAME }} --name ${{ vars.KUBERNETES_CLUSTER_NAME }}
+        kubectl create secret docker-registry regcred --docker-server=${{ vars.CONTAINER_REGISTRY_SERVER }} --docker-username=${{ vars.CONTAINER_REGISTRY_NAME }} --docker-password=${{ vars.CONTAINER_REGISTRY_PASSWORD }}

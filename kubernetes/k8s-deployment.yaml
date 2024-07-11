@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proyectofinal
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proyectofinal
+  template:
+    metadata:
+      labels:
+        app: proyectofinal
+    spec:
+      containers:
+      - name: acrplopez
+        image: acrplopez.azurecr.io/app-plopez:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-config
+              key: DB_HOST
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-config
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-config
+              key: DB_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-config
+              key: DB_NAME
+      imagePullSecrets:
+      - name: regcred
