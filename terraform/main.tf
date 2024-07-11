@@ -146,24 +146,10 @@ resource "null_resource" "install_ansible" {
       "sudo apt install ansible -y",
       "sudo apt install sshpass -y",
       "curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash",
-  
+
       "if [ ! -f /home/adminuser/.ssh/id_rsa ]; then ssh-keygen -t rsa -f /home/adminuser/.ssh/id_rsa -N '' -q; fi",
-      #"ssh-copy-id adminuser@direccion_ip_destino"
       "export VM1_IP=${azurerm_network_interface.netint1.private_ip_address}",
-      "sshpass -p '${var.linux_virtual_machine["linux_vm1"].admin_password}' ssh-copy-id -o StrictHostKeyChecking=no -i /home/adminuser/.ssh/id_rsa.pub ${var.linux_virtual_machine["linux_vm1"].admin_username}@${azurerm_network_interface.netint1.private_ip_address}",
-
-      #------------------#
-      # Descargar archivos de ansible 
-      # "wget https://raw.githubusercontent.com/stemdo-labs/final-project-ploopez/main/ansible/inventario -O /home/adminuser/inventario",
-      # "wget https://raw.githubusercontent.com/stemdo-labs/final-project-ploopez/main/ansible/playbook.yaml -O /home/adminuser/playbook.yaml",
-      # "wget https://raw.githubusercontent.com/stemdo-labs/final-project-ploopez/main/ansible/vars.yaml -O /home/adminuser/vars.yaml",
-      #------------------#
-
-      # "echo 'Sustituyendo  public_ip_vm1  por '\"$VM1_IP\"' en /home/adminuser/inventario'",
-      # # Modificar archivo de inventario para agregar la IP privada de la VM1
-      # "sed -i 's/public_ip_vm1/$VM1_IP/g' /home/adminuser/inventario",
-      # # Ejecutar Ansible playbook
-      # "ansible-playbook -i /home/adminuser/inventario /home/adminuser/playbook.yaml"
+      "sshpass -p '${var.linux_virtual_machine["linux_vm1"].admin_password}' ssh-copy-id -o StrictHostKeyChecking=no -i /home/adminuser/.ssh/id_rsa.pub ${var.linux_virtual_machine["linux_vm1"].admin_username}@${azurerm_network_interface.netint1.private_ip_address}"
     ]
 
     connection {
@@ -172,6 +158,8 @@ resource "null_resource" "install_ansible" {
       password = var.linux_virtual_machine["linux_vm2"].admin_password
       host     = azurerm_public_ip.terraform_public_ip_2.ip_address
     }
+  
+
   }
 }
 
