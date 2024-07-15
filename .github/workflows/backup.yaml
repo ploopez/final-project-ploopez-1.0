@@ -1,9 +1,9 @@
 name: 7. Secure Backup and Upload
 
 on:
-  #workflow_dispatch: 
-  schedule:
-    - cron: '15 12 * * *'
+  workflow_dispatch: 
+  #schedule:
+  #  - cron: '15 12 * * *'
 
 jobs:
   backup-and-upload:
